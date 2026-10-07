@@ -1237,15 +1237,16 @@ const ADM = (function(){
     try{
       const j = await load();
       if(j && j.ok){ if($("#admRemember").checked) store.set(code); $("#admLogin").hidden = true; $("#admMain").hidden = false; return; }
-      if(silent){ store.del(); return; }
+      if(silent){ if(j && j.error === "code") store.del(); return; }
       err.textContent = j && j.error === "locked" ? "יותר מדי ניסיונות. נסו שוב בעוד רבע שעה." : j && j.error === "demo" ? "מצב תצוגה: הדף לא מחובר" : "קוד שגוי";
     }catch(e){ err.textContent = "אין חיבור. נסו שוב."; }
   }
+  const OPEN_KEY = "nir_admin_open", flag = v => { try{ v ? localStorage.setItem(OPEN_KEY, v) : localStorage.removeItem(OPEN_KEY); }catch(e){} };
   function open(){
-    box.hidden = false; $("#admLogin").hidden = false; $("#admMain").hidden = true; $("#admCode").value = ""; $("#admErr").textContent = "";
+    flag("1"); box.hidden = false; $("#admLogin").hidden = false; $("#admMain").hidden = true; $("#admCode").value = ""; $("#admErr").textContent = "";
     const saved = store.get(); if(saved){ $("#admLogin").hidden = true; $("#admMain").hidden = false; login(saved, true).then(() => { if(!D){ $("#admLogin").hidden = false; $("#admMain").hidden = true; } }); }
   }
-  function close(){ box.hidden = true; }
+  function close(){ box.hidden = true; flag(""); }
 
   /* ---------- ציור ---------- */
   function render(){
@@ -1450,7 +1451,7 @@ const ADM = (function(){
   $("#admX").addEventListener("click", close);
   $("#admForget").addEventListener("click", () => { store.del(); code = ""; D = null; close(); });
   $$(".adm-tabs button").forEach(b => b.addEventListener("click", () => {
-    tab = b.dataset.ap;
+    tab = b.dataset.ap; try{ localStorage.setItem("nir_admin_tab", tab); }catch(e){}
     $$(".adm-tabs button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
     $$(".adm-pane").forEach(p => p.hidden = p.id !== "ap-" + tab);
   }));
@@ -1466,6 +1467,8 @@ const ADM = (function(){
   });
   ["pointerup","pointercancel","pointerleave"].forEach(ev => brand.addEventListener(ev, () => clearTimeout(pressT)));
   if(location.hash === "#admin"){ history.replaceState(null, "", "#home"); setTimeout(open, 300); }
+  else { let o = ""; try{ o = localStorage.getItem(OPEN_KEY); }catch(e){} if(o && store.get()) setTimeout(open, 200); }
+  try{ const t0 = localStorage.getItem("nir_admin_tab"); const tb = t0 && document.querySelector(`.adm-tabs button[data-ap="${t0}"]`); if(tb) setTimeout(() => tb.click(), 0); }catch(e){}
   return { open };
 })();
 
