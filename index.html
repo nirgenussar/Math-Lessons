@@ -1089,8 +1089,17 @@ if("IntersectionObserver" in window){
   });
   $("#admForget").addEventListener("click", () => { store.del(); code = ""; dlg.close(); });
   $("#admClose").addEventListener("click", () => dlg.close());
-  let taps = 0, tapT;
-  $(".brand-mark").addEventListener("click", () => { taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 2500); if(taps >= 5){ taps = 0; open(); } });
+  // כניסה: 5 נגיעות על הלוגו/השם (תוך 4 שניות), או לחיצה ארוכה של 2 שניות על הלוגו
+  let taps = 0, tapT, pressT;
+  const brand = $(".brand");
+  brand.style.touchAction = "manipulation"; brand.style.webkitUserSelect = "none"; brand.style.userSelect = "none";
+  brand.addEventListener("contextmenu", e => e.preventDefault());
+  brand.addEventListener("pointerdown", () => {
+    taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 4000);
+    if(taps >= 5){ taps = 0; clearTimeout(pressT); open(); return; }
+    clearTimeout(pressT); pressT = setTimeout(() => { taps = 0; open(); }, 2000);
+  });
+  ["pointerup","pointercancel","pointerleave"].forEach(ev => brand.addEventListener(ev, () => clearTimeout(pressT)));
   if(location.hash === "#admin"){ history.replaceState(null, "", "#home"); setTimeout(open, 300); }
 })();
 /* ---------- המלצות חדשות מהאתר ---------- */
