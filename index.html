@@ -252,6 +252,12 @@ button{font:inherit; color:inherit}
 /* =========================================================
    מסך המלצות
    ========================================================= */
+.seg-wrap{position:sticky; top:-6px; z-index:5; margin:0 -18px; padding:6px 18px 2px; background:var(--paper)}
+.seg-wrap .seg{margin:0 0 10px; box-shadow:0 0 0 1.5px var(--line) inset, 0 6px 14px -10px rgba(16,41,27,.35)}
+.to-top{position:absolute; left:16px; bottom:calc(var(--nav-h) + 24px); z-index:9; width:46px; height:46px; border-radius:50%; border:0; cursor:pointer;
+  background:var(--green); color:#fff; font-size:1.3rem; font-weight:900; box-shadow:0 8px 20px -6px rgba(0,0,0,.45);
+  opacity:0; transform:translateY(10px); pointer-events:none; transition:opacity .2s ease, transform .2s ease}
+.to-top.show{opacity:1; transform:none; pointer-events:auto}
 .seg{display:grid; grid-auto-flow:column; grid-auto-columns:1fr; background:var(--card); border-radius:14px; padding:4px; gap:4px;
   box-shadow:0 0 0 1.5px var(--line) inset; margin:4px 0 16px}
 .seg button{border:0; background:transparent; border-radius:10px; padding:9px 4px; font-weight:700; cursor:pointer; font-size:.92rem}
@@ -272,6 +278,9 @@ button{font:inherit; color:inherit}
 .q-card .who{display:flex; align-items:center; gap:10px; margin-top:auto; font-size:.88rem; color:var(--muted)}
 .q-card .who b{color:var(--ink); display:block; font-size:.95rem}
 .avatar{width:38px; height:38px; border-radius:50%; background:var(--yellow); color:var(--yellow-ink); display:grid; place-items:center; font-family:"Rubik","Assistant",sans-serif; font-weight:800; flex:none}
+.adm-status{border-radius:14px; padding:14px; text-align:center; font-family:"Rubik","Assistant",sans-serif; font-weight:800; font-size:1.15rem; margin-bottom:14px}
+.adm-status.open{background:var(--green-soft); color:var(--green-deep)}
+.adm-status.closed{background:#fde4e1; color:#a5281b}
 .add-rev{margin:0 0 12px}
 .rev-dlg{border:0; border-radius:22px; padding:20px 18px; width:min(420px,calc(100vw - 32px)); max-height:90vh; overflow:auto; background:var(--paper); color:var(--ink); box-shadow:0 30px 70px -20px rgba(0,0,0,.5)}
 .rev-dlg::backdrop{background:rgba(6,16,10,.6)}
@@ -500,11 +509,11 @@ details p{margin:0; padding:0 14px 14px; color:var(--muted); font-size:.95rem}
     <!-- ================= המלצות ================= -->
     <section class="screen" id="s-reviews" aria-label="המלצות">
       <h2 class="screen-title">מה אומרים עליי</h2>
-      <div class="seg" role="tablist" aria-label="סוג המלצות">
+      <div class="seg-wrap"><div class="seg" role="tablist" aria-label="סוג המלצות">
         <button role="tab" aria-selected="true" data-pane="quotes">ציטוטים</button>
         <button role="tab" aria-selected="false" data-pane="letters">מכתבים</button>
         <button role="tab" aria-selected="false" data-pane="chats" id="chatsTab" hidden>צ'אטים</button>
-      </div>
+      </div></div>
       <div class="pane active" id="p-quotes">
         <button class="cta secondary add-rev" id="addRevBtn" type="button">✍️ למדת איתי? כתבו המלצה</button>
         <p class="feed-count" id="feedCount"></p>
@@ -557,6 +566,7 @@ details p{margin:0; padding:0 14px 14px; color:var(--muted); font-size:.95rem}
     </section>
   </main>
 
+  <button class="to-top" id="toTop" type="button" aria-label="חזרה לראש ההמלצות">↑</button>
   <nav class="tabbar" role="tablist" aria-label="ניווט">
     <button class="tab" role="tab" data-go="home" aria-selected="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>בית</button>
@@ -590,6 +600,22 @@ details p{margin:0; padding:0 14px 14px; color:var(--muted); font-size:.95rem}
     <button class="link-btn rv-close" id="rvClose" type="button">ביטול</button>
   </form>
   <div class="rv-done" id="rvDone" hidden><div class="big">💛</div><h3>תודה רבה!</h3><p id="rvDoneText">ההמלצה תופיע באתר אחרי שאאשר אותה.</p><button class="cta" type="button" id="rvOk">סגירה</button></div>
+</dialog>
+<dialog class="rev-dlg" id="admDlg" aria-labelledby="admTitle">
+  <h3 id="admTitle">🔒 ניהול</h3>
+  <div id="admLogin">
+    <div class="field"><label for="admCode">קוד ניהול</label><input id="admCode" type="password" inputmode="numeric" autocomplete="off" maxlength="12"></div>
+    <label class="consent"><input type="checkbox" id="admRemember" checked> לזכור במכשיר הזה</label>
+    <p class="form-err" id="admErr" role="alert"></p>
+    <button class="cta" id="admEnter" type="button">כניסה</button>
+  </div>
+  <div id="admPanel" hidden>
+    <div class="adm-status" id="admStatus"></div>
+    <button class="cta" id="admToggle" type="button"></button>
+    <p class="hint" id="admHint"></p>
+    <button class="link-btn rv-close" id="admForget" type="button">יציאה ושכחת הקוד במכשיר הזה</button>
+  </div>
+  <button class="link-btn rv-close" id="admClose" type="button">סגירה</button>
 </dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -814,7 +840,7 @@ async function loadAvailability(){
   const r = await fetch(`${B.api}?action=slots&from=${from}&to=${to}`);
   const j = await r.json();
   if(!j.ok) throw new Error(j.error || "server");
-  return { hours:j.hours || localHours(), busy:j.busy || [], minNoticeHours:j.minNoticeHours };
+  return { hours:j.hours || localHours(), busy:j.busy || [], minNoticeHours:j.minNoticeHours, closed:!!j.closed };
 }
 function freeDays(){
   const B = CONFIG.booking, len = lessonMin(), earliest = Date.now() + (AV.minNoticeHours ?? B.minNoticeHours)*36e5;
@@ -847,6 +873,10 @@ async function refreshStep3(){
     if(my !== avReq) return;
     st.className = "cal-state err"; st.innerHTML = 'לא הצלחנו לטעון את היומן. <button class="link-btn" type="button" id="retryCal">לנסות שוב</button>';
     $("#retryCal").addEventListener("click", refreshStep3); return;
+  }
+  if(AV.closed){
+    st.innerHTML = 'קביעת שיעורים דרך האתר סגורה כרגע. <a class="link-btn" target="_blank" rel="noopener">כתבו לי בוואטסאפ ונתאם</a>';
+    setWa(st.querySelector("a")); return;
   }
   DAYS = freeDays(); st.textContent = "";
   if(!DAYS.length){
@@ -947,6 +977,7 @@ $("#reqForm").addEventListener("submit", async e => {
       const r = await fetch(CONFIG.booking.api, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body:JSON.stringify(payload) });
       const j = await r.json();
       if(!j.ok){
+        if(j.error === "closed"){ toast("קביעת שיעורים סגורה כרגע. כתבו לי בוואטסאפ"); setStep(3); return; }
         if(j.error === "taken" || j.error === "hours"){ toast("השעה הזאת כבר נתפסה. בחרו שעה אחרת"); setStep(3); return; }
         if(j.error === "rate"){ err.textContent = "כבר התקבלו ממך כמה בקשות. אחזור אליך בהקדם."; return; }
         throw new Error(j.error);
@@ -1005,6 +1036,63 @@ if("IntersectionObserver" in window){
     { root: $("#s-reviews"), rootMargin: "0px 0px 900px 0px" }).observe($("#feedEnd"));
 }
 
+
+/* כפתורי ציטוטים/מכתבים נשארים למעלה + כפתור חזרה להתחלה */
+(function(){
+  const scr = $("#s-reviews"), top = $("#toTop");
+  scr.addEventListener("scroll", () => top.classList.toggle("show", scr.scrollTop > 900 && scr.classList.contains("active")), { passive:true });
+  top.addEventListener("click", () => scr.scrollTo({ top:0, behavior:"smooth" }));
+  $$(".seg button").forEach(b => b.addEventListener("click", () => { scr.scrollTop = 0; top.classList.remove("show"); }));
+  window.addEventListener("hashchange", () => top.classList.remove("show"));
+})();
+
+/* ---------- מסך ניהול נסתר: 5 לחיצות על הלוגו x, או #admin בכתובת ---------- */
+(function(){
+  const dlg = $("#admDlg"), KEY = "nir_admin_code";
+  const store = { get(){ try{ return localStorage.getItem(KEY) || ""; }catch(e){ return ""; } },
+                  set(v){ try{ localStorage.setItem(KEY, v); }catch(e){} }, del(){ try{ localStorage.removeItem(KEY); }catch(e){} } };
+  let code = "";
+  async function call(op){
+    if(!CONFIG.booking.api) return { ok:false, error:"demo" };
+    return fetch(CONFIG.booking.api, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" },
+      body:JSON.stringify({ type:"admin", code, op }) }).then(r => r.json());
+  }
+  function render(closed){
+    $("#admLogin").hidden = true; $("#admPanel").hidden = false;
+    const st = $("#admStatus");
+    st.className = "adm-status " + (closed ? "closed" : "open");
+    st.textContent = closed ? "⛔ קביעת שיעורים באתר: סגורה" : "✅ קביעת שיעורים באתר: פתוחה";
+    $("#admToggle").textContent = closed ? "לפתוח קביעת שיעורים" : "לסגור קביעת שיעורים";
+    $("#admToggle").dataset.op = closed ? "open" : "close";
+    $("#admHint").textContent = closed ? "תלמידים רואים הודעה שהקביעה סגורה וקישור לוואטסאפ." : "תלמידים יכולים לבחור שעה פנויה ולשלוח בקשה.";
+  }
+  async function login(c, silent){
+    code = c; const err = $("#admErr"); err.textContent = "";
+    try{
+      const j = await call("status");
+      if(j.ok){ if($("#admRemember").checked) store.set(code); render(j.closed); return; }
+      if(silent){ store.del(); return; }
+      err.textContent = j.error === "locked" ? "יותר מדי ניסיונות. נסו שוב בעוד רבע שעה." : j.error === "demo" ? "מצב תצוגה: הדף לא מחובר" : "קוד שגוי";
+    }catch(e){ err.textContent = "אין חיבור. נסו שוב."; }
+  }
+  function open(){
+    $("#admLogin").hidden = false; $("#admPanel").hidden = true; $("#admCode").value = ""; $("#admErr").textContent = "";
+    dlg.showModal(); const saved = store.get(); if(saved) login(saved, true);
+  }
+  $("#admEnter").addEventListener("click", () => login($("#admCode").value.trim(), false));
+  $("#admCode").addEventListener("keydown", e => { if(e.key === "Enter") login($("#admCode").value.trim(), false); });
+  $("#admToggle").addEventListener("click", async e => {
+    const b = e.currentTarget; b.disabled = true; const t = b.textContent; b.textContent = "רגע…";
+    try{ const j = await call(b.dataset.op); if(j.ok){ render(j.closed); toast(j.closed ? "הקביעה נסגרה" : "הקביעה נפתחה"); } else toast("לא הצלחתי, נסו שוב"); }
+    catch(x){ toast("אין חיבור, נסו שוב"); b.textContent = t; }
+    finally{ b.disabled = false; }
+  });
+  $("#admForget").addEventListener("click", () => { store.del(); code = ""; dlg.close(); });
+  $("#admClose").addEventListener("click", () => dlg.close());
+  let taps = 0, tapT;
+  $(".brand-mark").addEventListener("click", () => { taps++; clearTimeout(tapT); tapT = setTimeout(() => taps = 0, 2500); if(taps >= 5){ taps = 0; open(); } });
+  if(location.hash === "#admin"){ history.replaceState(null, "", "#home"); setTimeout(open, 300); }
+})();
 /* ---------- המלצות חדשות מהאתר ---------- */
 (async function loadLiveReviews(){
   if(!CONFIG.booking.api) return;
