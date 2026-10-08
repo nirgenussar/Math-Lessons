@@ -344,12 +344,41 @@ button{font:inherit; color:inherit}
 .adm-switch{display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; margin-bottom:12px}
 .adm-switch .adm-status{margin:0; font-size:.98rem; padding:10px}
 .adm-switch .cta{font-size:.9rem; padding:10px 12px; width:auto}
-.adm-tabs{display:grid; grid-template-columns:repeat(5,1fr); gap:4px; background:var(--card); border-radius:14px; padding:4px; box-shadow:0 0 0 1.5px var(--line) inset; margin-bottom:14px; position:sticky; top:-14px; z-index:2}
-.adm-tabs button{border:0; background:transparent; border-radius:10px; padding:9px 1px; font-weight:700; font-size:.8rem; cursor:pointer; position:relative}
+.adm-tabs{display:grid; grid-template-columns:repeat(6,1fr); gap:4px; background:var(--card); border-radius:14px; padding:4px; box-shadow:0 0 0 1.5px var(--line) inset; margin-bottom:14px; position:sticky; top:-14px; z-index:2}
+.adm-tabs button{border:0; background:transparent; border-radius:10px; padding:9px 1px; font-weight:700; font-size:.76rem; cursor:pointer; position:relative}
 .adm-tabs button[aria-selected="true"]{background:var(--green); color:#fff}
 .adm-tabs i{position:absolute; top:-5px; left:4px; min-width:18px; height:18px; border-radius:9px; background:#d63b2a; color:#fff; font-style:normal; font-size:.7rem; line-height:18px; padding:0 4px}
 .adm-tabs i:empty{display:none}
 .adm-pane[hidden]{display:none}
+/* לוח יומי בניהול */
+.dv-nav{display:flex; align-items:center; gap:8px; margin:0 0 10px}
+.dv-nav button{border:0; background:var(--card); box-shadow:0 0 0 1.5px var(--line) inset; border-radius:12px; width:44px; height:44px; font-size:1.2rem; cursor:pointer; color:var(--ink)}
+.dv-nav button:disabled{opacity:.35}
+.dv-nav .dv-title{flex:1; text-align:center; line-height:1.2}
+.dv-nav .dv-title b{display:block; font-size:1.08rem}
+.dv-nav .dv-title small{color:var(--muted)}
+.dv-strip{display:flex; gap:6px; overflow-x:auto; margin:0 0 12px; padding-bottom:4px; scrollbar-width:none}
+.dv-strip button{flex:none; border:0; background:var(--card); box-shadow:0 0 0 1.5px var(--line) inset; border-radius:12px; min-width:48px; padding:6px 4px; cursor:pointer; font:inherit; font-size:.8rem; line-height:1.15; color:var(--ink)}
+.dv-strip button b{display:block; font-size:.95rem}
+.dv-strip button i{display:block; font-style:normal; font-size:.7rem; color:var(--green); font-weight:700; min-height:.9em}
+.dv-strip button[aria-pressed="true"]{background:var(--green); color:#fff} .dv-strip button[aria-pressed="true"] i{color:#d4f0de}
+.dv-grid{position:relative; margin-right:46px; border-right:1.5px solid var(--line); background:var(--card); border-radius:12px 0 0 12px; touch-action:pan-y}
+.dv-hr{position:absolute; left:0; right:0; border-top:1px solid var(--line)}
+.dv-hr span{position:absolute; right:-46px; top:-9px; width:40px; text-align:center; font-size:.75rem; color:var(--muted); direction:ltr}
+.dv-open{position:absolute; left:0; right:0; background:var(--green-soft); opacity:.7}
+.dv-now{position:absolute; left:0; right:0; border-top:2px solid #d63b2a; z-index:3}
+.dv-now::before{content:""; position:absolute; right:-5px; top:-5px; width:8px; height:8px; border-radius:50%; background:#d63b2a}
+.dv-ev{position:absolute; z-index:2; border-radius:10px; padding:4px 7px; box-sizing:border-box; overflow:hidden; background:#1d7a45; color:#fff; font-size:.82rem; line-height:1.25; box-shadow:0 2px 6px rgba(0,0,0,.15); cursor:pointer; border:1.5px solid rgba(255,255,255,.6)}
+.dv-ev.other{background:#7a8a80} .dv-ev.pend{background:#c9d3cc; color:#333} .dv-ev.past{opacity:.55}
+.dv-ev b{display:block; font-size:.9rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.dv-ev .t{direction:ltr; display:inline-block; opacity:.9}
+.dv-ev a.meet{display:inline-block; margin-right:4px; background:#ffd21f; color:#0f4f2b; font-weight:800; border-radius:7px; padding:0 7px; text-decoration:none; font-size:.78rem; line-height:1.5; vertical-align:middle}
+.dv-ev.open{z-index:5; height:auto !important; min-height:120px; left:0 !important; width:100% !important}
+.dv-ev .more{display:none; margin-top:6px} .dv-ev.open .more{display:block}
+.dv-ev .more .wa{display:inline-block; background:#25d366; color:#fff; border-radius:8px; padding:3px 9px; text-decoration:none; font-weight:700; margin-left:6px}
+.dv-allday{margin:0 0 8px; display:flex; flex-wrap:wrap; gap:6px}
+.dv-allday span{background:#e2f1fb; color:#1f6a96; border-radius:8px; padding:3px 9px; font-size:.82rem}
+.dv-empty{text-align:center; color:var(--muted); margin:6px 0 10px; font-size:.9rem}
 .adm-card{background:var(--card); border-radius:14px; padding:12px 14px; box-shadow:0 0 0 1.5px var(--line) inset; margin-bottom:10px}
 .adm-card.warn{box-shadow:0 0 0 2px #e06b5c inset; background:#fff4f2}
 .adm-card h4{margin:0 0 4px; font-family:"Rubik","Assistant",sans-serif; font-size:1.02rem}
@@ -731,12 +760,14 @@ details p{margin:0; padding:0 14px 14px; color:var(--muted); font-size:.95rem}
     <div id="admMain" hidden>
       <div class="adm-switch"><div class="adm-status" id="admStatus"></div><button class="cta secondary" id="admToggle" type="button"></button></div>
       <nav class="adm-tabs" role="tablist">
+        <button type="button" data-ap="day" aria-selected="false">לוח<i></i></button>
         <button type="button" data-ap="req" aria-selected="true">בקשות<i></i></button>
         <button type="button" data-ap="cal" aria-selected="false">יומן<i></i></button>
         <button type="button" data-ap="rev" aria-selected="false">המלצות<i></i></button>
         <button type="button" data-ap="stu" aria-selected="false">תלמידים<i></i></button>
         <button type="button" data-ap="pri" aria-selected="false">אתר<i></i></button>
       </nav>
+      <div class="adm-pane" id="ap-day" hidden></div>
       <div class="adm-pane" id="ap-req"></div>
       <div class="adm-pane" id="ap-cal" hidden></div>
       <div class="adm-pane" id="ap-rev" hidden></div>
@@ -1333,8 +1364,76 @@ const ADM = (function(){
     const c = D.counts || {};
     const badge = { req:c.requests, cal:(c.conflicts || 0) + (D.offers || []).length, rev:c.reviews, stu:(D.students || []).filter(s => s.status === "pending" && s.firstReq).length };
     $$(".adm-tabs button").forEach(b => b.querySelector("i").textContent = badge[b.dataset.ap] || "");
-    renderReq(); renderCal(); renderRev(); renderStu(); renderPri();
+    renderDay(); renderReq(); renderCal(); renderRev(); renderStu(); renderPri();
   }
+
+  /* ---------- לוח יומי: שעות מלמעלה למטה, מעבר בין ימים ---------- */
+  let dayOff = 0, dvTimer = null;
+  const DV_PX = 60;                                                     // גובה שעה בפיקסלים
+  function dayStart(off){ const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() + off); return d.getTime(); }
+  function renderDay(){
+    const el = $("#ap-day"); if(!D) return;
+    const MAXD = 21, t0 = dayStart(dayOff), t1 = t0 + 864e5, now = Date.now();
+    const evs = (D.lessons || []).filter(l => l.start < t1 && l.end > t0);
+    const timed = evs.filter(l => !l.allDay), allDay = evs.filter(l => l.allDay);
+    const d = new Date(t0), wk = (() => { const w = new Date(t0); w.setDate(w.getDate() - w.getDay()); return `${w.getFullYear()}-${String(w.getMonth()+1).padStart(2,"0")}-${String(w.getDate()).padStart(2,"0")}`; })();
+    const weekH = ((D.agendaWeeks || D.weeks || []).find(w => w.key === wk) || {}).hours || [];
+    const open = (weekH.find(h => h.dow === d.getDay()) || { ranges:[] }).ranges;
+    // טווח שעות: 08–21, ומתרחב לפי שיעורים ושעות פעילות
+    let h0 = 8, h1 = 21;
+    open.forEach(r => { h0 = Math.min(h0, Math.floor(r[0]/60)); h1 = Math.max(h1, Math.ceil(r[1]/60)); });
+    timed.forEach(l => { const a = new Date(Math.max(l.start, t0)), b = new Date(Math.min(l.end, t1 - 1));
+      h0 = Math.min(h0, a.getHours()); h1 = Math.max(h1, b.getHours() + (b.getMinutes() ? 1 : 0)); });
+    const y = ms => ((ms - t0) / 6e4 - h0*60) / 60 * DV_PX;
+    // עמודות לשיעורים חופפים
+    const sorted = timed.slice().sort((a, b) => a.start - b.start || b.end - a.end), cols = [];
+    sorted.forEach(l => { let c = cols.findIndex(end => end <= l.start); if(c < 0){ c = cols.length; cols.push(0); } cols[c] = l.end; l._c = c; });
+    sorted.forEach(l => { l._n = 1 + Math.max(...sorted.filter(o => o.start < l.end && o.end > l.start).map(o => o._c)); });
+    const strip = Array.from({ length:MAXD + 1 }, (_, i) => { const t = dayStart(i), dd = new Date(t), n = (D.lessons || []).filter(l => !l.allDay && l.lesson && l.start >= t && l.start < t + 864e5).length;
+      return `<button type="button" data-off="${i}" aria-pressed="${i === dayOff}">${"אבגדהוש"[dd.getDay()]}׳<b>${dd.getDate()}.${dd.getMonth()+1}</b><i>${n ? n + " שיע׳" : ""}</i></button>`; }).join("");
+    const nLessons = timed.filter(l => l.lesson).length;
+    let h = `<div class="dv-nav"><button type="button" data-dv="-1" aria-label="היום הקודם" ${dayOff <= 0 ? "disabled" : ""}>→</button>
+      <div class="dv-title"><b>יום ${HE[d.getDay()]}, ${d.getDate()}.${d.getMonth()+1}${dayOff === 0 ? " · היום" : dayOff === 1 ? " · מחר" : ""}</b><small>${nLessons ? nLessons + " שיעורים" : "אין שיעורים"}${open.length ? " · פתוח " + open.map(r => t2(r[0]) + "–" + t2(r[1])).join(", ") : " · סגור"}</small></div>
+      <button type="button" data-dv="1" aria-label="היום הבא" ${dayOff >= MAXD ? "disabled" : ""}>←</button></div>
+      <div class="dv-strip">${strip}</div>`;
+    if(allDay.length) h += `<div class="dv-allday">${allDay.map(l => `<span>📌 ${esc(l.title)}</span>`).join("")}</div>`;
+    if(!timed.length) h += `<p class="dv-empty">אין אירועים ביומן ביום הזה</p>`;
+    h += `<div class="dv-grid" style="height:${(h1 - h0) * DV_PX}px">`;
+    for(let hr = h0; hr <= h1; hr++) h += `<div class="dv-hr" style="top:${(hr - h0) * DV_PX}px"><span>${String(hr).padStart(2,"0")}:00</span></div>`;
+    open.forEach(r => { h += `<div class="dv-open" style="top:${(r[0] - h0*60) / 60 * DV_PX}px;height:${(r[1] - r[0]) / 60 * DV_PX}px"></div>`; });
+    if(now >= t0 && now < t1) h += `<div class="dv-now" style="top:${y(now)}px"></div>`;
+    sorted.forEach(l => {
+      const top = y(Math.max(l.start, t0)), ht = Math.max(26, y(Math.min(l.end, t1)) - top - 2), w = 100 / l._n;
+      const a = new Date(l.start), b = new Date(l.end), tm = `${t2(a.getHours()*60 + a.getMinutes())}–${t2(b.getHours()*60 + b.getMinutes())}`;
+      const name = l.student || l.title.replace(/^⏳\s*בקשה:\s*/, "").replace(/\s–\s.*$/, "");
+      const cls = ["dv-ev", l.pending ? "pend" : l.lesson ? "" : "other", l.end < now ? "past" : ""].join(" ");
+      h += `<div class="${cls}" data-id="${esc(l.id)}" style="top:${top}px;height:${ht}px;right:${l._c * w}%;width:calc(${w}% - 3px)">
+        <b>${l.pending ? "⏳ " : ""}${esc(name)}${l.confirmed === "yes" ? " ✓" : l.confirmed === "no" ? " ✗" : ""}</b><span class="t">${tm}</span>${l.frontal ? " · 📍" : ""}${l.meet && !l.pending ? ` <a class="meet" href="${esc(l.meet)}" target="_blank" rel="noopener">🎥 Meet</a>` : ""}
+        <div class="more">${l.topic ? `📝 ${esc(l.topic)}<br>` : ""}${l.recurring ? "🔁 שיעור קבוע<br>" : ""}${l.confirmed === "yes" ? "✓ אישר/ה הגעה<br>" : l.confirmed === "no" ? "✗ סימן/ה שלא יגיע/תגיע<br>" : ""}${l.phone ? waBtn(l.phone, `היי ${l.student || ""}, לגבי השיעור היום ב-${tm.split("–")[0]} `, "וואטסאפ") : ""}${l.lesson && !l.pending ? '<a href="#" data-goto="cal" style="color:inherit">לביטול / העברה ←</a>' : ""}</div>
+      </div>`;
+    });
+    h += `</div>`;
+    el.innerHTML = h;
+    const strEl = el.querySelector(".dv-strip [aria-pressed=true]"); if(strEl) strEl.scrollIntoView({ inline:"center", block:"nearest" });
+    // גלילה לשעה רלוונטית: עכשיו (היום) או השיעור הראשון
+    clearInterval(dvTimer); if(dayOff === 0) dvTimer = setInterval(() => { if(!$("#ap-day").hidden) renderDay(); }, 5 * 6e4);
+  }
+  $("#ap-day").addEventListener("click", ev => {
+    const nav = ev.target.closest("[data-dv]"), st = ev.target.closest("[data-off]"), go2 = ev.target.closest("[data-goto]");
+    if(nav){ dayOff = Math.max(0, Math.min(21, dayOff + +nav.dataset.dv)); renderDay(); return; }
+    if(st){ dayOff = +st.dataset.off; renderDay(); return; }
+    if(go2){ ev.preventDefault(); document.querySelector('.adm-tabs button[data-ap="cal"]').click(); return; }
+    if(ev.target.closest("a")) return;                                  // קישור Meet / וואטסאפ
+    const card = ev.target.closest(".dv-ev"); if(!card) return;
+    const was = card.classList.contains("open");
+    $$("#ap-day .dv-ev.open").forEach(x => x.classList.remove("open")); if(!was) card.classList.add("open");
+  });
+  // החלקה ימינה/שמאלה בין ימים
+  (() => { let x0 = null, y0 = 0;
+    $("#ap-day").addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive:true });
+    $("#ap-day").addEventListener("touchend", e => { if(x0 === null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5){ const n = Math.max(0, Math.min(21, dayOff + (dx < 0 ? 1 : -1))); if(n !== dayOff){ dayOff = n; renderDay(); } } }, { passive:true });
+  })();
 
   function renderReq(){
     const el = $("#ap-req");
