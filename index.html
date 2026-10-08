@@ -238,6 +238,31 @@ button{font:inherit; color:inherit}
 .day b{font-family:"Rubik","Assistant",sans-serif; font-weight:800; font-size:1.08rem}
 .day[aria-pressed="true"]{background:var(--green); color:#fff; box-shadow:0 4px 0 var(--green-deep)}
 .day[aria-pressed="true"] small{color:#d4f0de}
+.day.full{opacity:.8; box-shadow:0 0 0 1.5px var(--line) inset}
+.day.full small:last-child{color:#a5281b; font-weight:700}
+.day.full[aria-pressed="true"] small:last-child{color:#ffd6d0}
+.wl-box{grid-column:1/-1; width:100%; box-sizing:border-box; background:var(--card); border-radius:16px; padding:14px; box-shadow:0 0 0 1.5px var(--line) inset; margin:0 0 14px; text-align:center}
+.wl-box b{display:block; font-size:1.02rem; margin-bottom:4px}
+.wl-box p{margin:0 0 10px; color:var(--muted); font-size:.92rem}
+.wl-box.done{background:#e7f5ec; box-shadow:0 0 0 1.5px #9fd3b2 inset}
+.wl-box .cta{margin:0}
+.stu-gate{background:var(--card); border-radius:18px; padding:18px; box-shadow:0 0 0 1.5px var(--line) inset; margin:6px 0 14px}
+.stu-gate h3{margin:0 0 6px; font-size:1.15rem}
+.stu-gate p{margin:0 0 12px; color:var(--muted)}
+.stu-gate textarea{width:100%; box-sizing:border-box; border-radius:12px; border:1.5px solid var(--line); padding:10px; font:inherit; margin-bottom:10px; background:var(--paper); color:inherit}
+.stu-gate.wait{background:#fff8dc; box-shadow:0 0 0 1.5px #f0d77a inset}
+.offer-card{background:linear-gradient(135deg,#1d7a45,#0f4f2b); color:#fff; border-radius:18px; padding:16px; margin:0 0 14px}
+.offer-card b{display:block; font-size:1.1rem} .offer-card .when{font-size:1.25rem; font-weight:800; margin:6px 0 10px}
+.offer-card .cta{background:#ffd21f; color:#0f4f2b; box-shadow:0 4px 0 #b08d00; margin:0}
+.wl-list{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px}
+.wl-chip{display:inline-flex; align-items:center; gap:6px; background:var(--card); border-radius:999px; padding:5px 6px 5px 12px; box-shadow:0 0 0 1.5px var(--line) inset; font-size:.88rem}
+.wl-chip button{border:0; background:none; cursor:pointer; color:var(--muted); font-size:.9rem}
+.st-seg{display:inline-flex; border-radius:999px; overflow:hidden; box-shadow:0 0 0 1.5px var(--line) inset; margin:8px 0}
+.st-seg button{border:0; background:none; padding:6px 14px; font:inherit; font-size:.86rem; font-weight:700; cursor:pointer; color:var(--muted)}
+.st-seg button[aria-pressed="true"].ap{background:#1d7a45; color:#fff}
+.st-seg button[aria-pressed="true"].pe{background:#f0c419; color:#3a2c00}
+.first-req{background:#fff8dc; border-radius:12px; padding:8px 10px; margin:6px 0; font-size:.9rem}
+#s-book.gated .wiz-head, #s-book.gated .progress, #s-book.gated .step{display:none !important}
 .slots{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px}
 .slot{border:0; cursor:pointer; background:var(--card); border-radius:12px; padding:11px 4px; direction:ltr;
   font-family:"Rubik","Assistant",sans-serif; font-weight:700; font-size:1.02rem; box-shadow:0 0 0 1.5px var(--line) inset}
@@ -515,6 +540,7 @@ details p{margin:0; padding:0 14px 14px; color:var(--muted); font-size:.95rem}
         <h2><span class="l1">בנוסחא להצלחה</span><br><span class="l2">אין נעלמים <span class="x">x</span></span></h2>
         <p class="l3">קבע שיעור, <mark>וההצלחה בדרך אליך.</mark></p>
       </div>
+      <div id="pendGate" hidden></div>
       <div class="wiz-head">
         <button class="back" id="wizBack" aria-label="חזרה לשלב הקודם" hidden>→</button>
         <h2 id="wizTitle">איך נלמד?</h2>
@@ -672,6 +698,11 @@ details p{margin:0; padding:0 14px 14px; color:var(--muted); font-size:.95rem}
     <div id="stuLogin">
       <p class="hint" style="margin:0 0 12px">כאן רואים את השיעורים שלך, משנים מועד, מאשרים הגעה וכותבים על מה נעבוד. נכנסים עם המייל שנתת בקביעת השיעור.</p>
       <div class="field"><label for="stuEmail">מייל</label><input id="stuEmail" type="email" inputmode="email" dir="ltr" autocomplete="email"></div>
+      <div id="stuRegF" hidden>
+        <p class="hint" style="margin:0 0 10px">עוד לא נרשמת? ממלאים שם וטלפון, ונשלח לך קוד כניסה למייל.</p>
+        <div class="field"><label for="stuName">שם מלא</label><input id="stuName" autocomplete="name" maxlength="60"></div>
+        <div class="field"><label for="stuPhone">טלפון</label><input id="stuPhone" type="tel" inputmode="tel" dir="ltr" autocomplete="tel" maxlength="20"></div>
+      </div>
       <div class="field" id="stuCodeF" hidden><label for="stuCode">הקוד שקיבלת במייל</label><input id="stuCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" dir="ltr" style="letter-spacing:.4em;text-align:center"></div>
       <p class="form-err" id="stuErr" role="alert"></p>
       <button class="cta" id="stuGo" type="button">שליחת קוד למייל</button>
@@ -903,6 +934,10 @@ function go(name){
   $$(".tab").forEach(t => t.setAttribute("aria-selected", String(t.dataset.go === name)));
   const s = $("#s-" + name); s.scrollTop = 0;
   if(location.hash.slice(1) !== name) history.replaceState(null, "", "#" + name);
+  if(name === "book" && typeof bookGate === "function"){
+    bookGate();
+    try{ if(STU.me && STU.me.status === "pending") Promise.resolve(STU.refresh()).catch(() => {}); }catch(e){}   // אולי ניר כבר אישר
+  }
 }
 document.addEventListener("click", e => { const g = e.target.closest("[data-go]"); if(g){ e.preventDefault(); go(g.dataset.go); } });
 window.addEventListener("hashchange", () => go(location.hash.slice(1)));
@@ -979,16 +1014,18 @@ async function loadAvailability(){
   if(!j.ok) throw new Error(j.error || "server");
   return { hours:j.hours || localHours(), busy:j.busy || [], minNoticeHours:j.minNoticeHours, closed:!!j.closed, weeks:j.weeks || null };
 }
-function freeDays(lenArg){
+function freeDays(lenArg, withFull){
   const B = CONFIG.booking, len = lenArg || lessonMin(), earliest = Date.now() + (AV.minNoticeHours ?? B.minNoticeHours)*36e5;
   const base = new Date(); base.setHours(0,0,0,0);
   const out = [];
   for(let i = 0; i < B.horizonDays; i++){
     const d = new Date(base); d.setDate(base.getDate() + i);
-    const set = new Set();
+    const set = new Set(); let open = false;
     const ws = new Date(d); ws.setDate(d.getDate() - d.getDay());
     const wk = `${ws.getFullYear()}-${String(ws.getMonth()+1).padStart(2,"0")}-${String(ws.getDate()).padStart(2,"0")}`;
     ((AV.weeks && AV.weeks[wk]) || AV.hours).filter(h => h.dow === d.getDay()).forEach(h => h.ranges.forEach(([a,b]) => {
+      const endT = new Date(d); endT.setHours(0, b, 0, 0);
+      if(endT.getTime() - len*6e4 >= Date.now() + 15*6e4) open = true;      // נשאר ביום הזה זמן פעילות (לרשימת המתנה)
       for(let t = a; t + len <= b; t += B.stepMin){
         const s = new Date(d); s.setHours(0, t, 0, 0); const st = s.getTime();
         if(st < earliest) continue;
@@ -997,6 +1034,7 @@ function freeDays(lenArg){
       }
     }));
     if(set.size) out.push({ t:d.getTime(), slots:[...set].sort((x,y) => x-y) });
+    else if(withFull && open) out.push({ t:d.getTime(), slots:[], full:true });
   }
   return out;
 }
@@ -1017,12 +1055,12 @@ async function refreshStep3(){
     st.innerHTML = 'קביעת שיעורים דרך האתר סגורה כרגע. <a class="link-btn" target="_blank" rel="noopener">כתבו לי בוואטסאפ ונתאם</a>';
     setWa(st.querySelector("a")); return;
   }
-  DAYS = freeDays(); st.textContent = "";
+  DAYS = freeDays(undefined, true); st.textContent = "";
   if(!DAYS.length){
     st.innerHTML = 'אין כרגע שעות פנויות בשבועות הקרובים. <a class="link-btn" target="_blank" rel="noopener">כתבו לי ונמצא זמן</a>';
     setWa(st.querySelector("a")); return;
   }
-  dayIdx = 0; renderDays();
+  dayIdx = Math.max(0, DAYS.findIndex(d => !d.full)); renderDays();
 }
 function renderDays(){
   $("#daysQ").hidden = false;
@@ -1030,16 +1068,43 @@ function renderDays(){
   DAYS.forEach((d,i) => {
     const dt = new Date(d.t), b = document.createElement("button");
     b.type = "button"; b.className = "day"; b.setAttribute("aria-pressed", String(i === dayIdx));
-    b.innerHTML = `<small>${DOW[dt.getDay()]}</small><b>${dt.getDate()}.${dt.getMonth()+1}</b><small>${d.slots.length} פנויות</small>`;
-    b.setAttribute("aria-label", `${dateLabel(d.t)}, ${d.slots.length} שעות פנויות`);
+    if(d.full) b.classList.add("full");
+    b.innerHTML = `<small>${DOW[dt.getDay()]}</small><b>${dt.getDate()}.${dt.getMonth()+1}</b><small>${d.full ? "מלא" : d.slots.length + " פנויות"}</small>`;
+    b.setAttribute("aria-label", d.full ? `${dateLabel(d.t)}, הכל תפוס` : `${dateLabel(d.t)}, ${d.slots.length} שעות פנויות`);
     b.addEventListener("click", () => { dayIdx = i; S.slot = null; $("#next3").disabled = true; renderDays(); });
     box.append(b);
   });
   renderSlots();
 }
+const dayKey = t => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
+/** יום שכל המועדים בו תפוסים: הצעה להצטרף לרשימת המתנה (רק לתלמידים מאושרים) */
+function renderWaitBox(box, d){
+  const key = dayKey(d.t), me = STU.me, inList = STU.waits.some(w => w.day === key);
+  const wrap = document.createElement("div"); wrap.className = "wl-box" + (inList ? " done" : "");
+  if(inList){
+    wrap.innerHTML = `<b>✓ נרשמת לרשימת ההמתנה ל${dateLabel(d.t)}</b><p>אם יתפנה מקום, תקבל/י מייל עם כפתור לקביעה (והוא יופיע גם באזור האישי).</p><button class="link-btn" type="button" data-a="leave">יציאה מהרשימה</button>`;
+  } else if(STU.sid && me && me.status === "approved"){
+    wrap.innerHTML = `<b>כל המועדים ב${dateLabel(d.t)} כבר תפוסים</b><p>אפשר להיכנס לרשימת ההמתנה. אם מישהו מבטל, הראשון בתור מקבל הודעה.</p><button class="cta" type="button" data-a="join">הצטרף לרשימת המתנה ליום זה</button>`;
+  } else if(STU.sid && me){
+    wrap.innerHTML = `<b>כל המועדים ב${dateLabel(d.t)} כבר תפוסים</b><p>רשימת ההמתנה פתוחה לתלמידים מאושרים, אחרי השיעור הראשון.</p>`;
+  } else {
+    wrap.innerHTML = `<b>כל המועדים ב${dateLabel(d.t)} כבר תפוסים</b><p>תלמידים רשומים יכולים להיכנס לרשימת המתנה ליום הזה.</p><button class="cta secondary" type="button" data-a="login">כניסת תלמידים</button>`;
+  }
+  wrap.addEventListener("click", e => {
+    const b = e.target.closest("button"); if(!b) return;
+    if(b.dataset.a === "login"){ STU.open(); return; }
+    const join = b.dataset.a === "join";
+    STU.wait(key, join, { mode:S.mode, plan:S.plan && S.plan.id === "double" ? "double" : "single" })   // מיידי במסך, השרת ברקע
+      .then(ok => { if(!ok) renderSlots(); });
+    renderSlots();
+    toast(join ? "נרשמת לרשימת ההמתנה ✓" : "יצאת מרשימת ההמתנה");
+  });
+  box.append(wrap);
+}
 function renderSlots(){
   $("#slotsQ").hidden = false;
   const box = $("#slots"); box.innerHTML = "";
+  if(DAYS[dayIdx] && DAYS[dayIdx].full){ $("#slotsQ").hidden = true; renderWaitBox(box, DAYS[dayIdx]); return; }
   DAYS[dayIdx].slots.forEach(t => {
     const b = document.createElement("button");
     b.type = "button"; b.className = "slot"; b.textContent = hhmm(t); b.setAttribute("aria-pressed", String(S.slot === t));
@@ -1048,6 +1113,15 @@ function renderSlots(){
   });
 }
 $("#next3").addEventListener("click", () => { if(S.slot) setStep(4); });
+
+/** תלמיד מחובר שעדיין Pending: במקום יומן הקביעה, כפתור "בקש תיאום שיעור ראשון" */
+function bookGate(){
+  try{ STU; }catch(e){ return; }                    // לפני שהאזור האישי נטען
+  const me = STU.me, gate = $("#pendGate"), on = !!(STU.sid && me && me.status === "pending");
+  $("#s-book").classList.toggle("gated", on); gate.hidden = !on;
+  if(on) gate.innerHTML = STU.gateHTML();
+}
+$("#pendGate").addEventListener("click", e => { const b = e.target.closest("[data-a]"); if(b) STU.handleGate(b, $("#pendGate")); });
 
 /* ---------- פרטים ושליחת בקשה ---------- */
 function chosenHTML(){
@@ -1255,7 +1329,7 @@ const ADM = (function(){
     st.textContent = D.closed ? "⛔ קביעה באתר סגורה" : "✅ קביעה באתר פתוחה";
     $("#admToggle").textContent = D.closed ? "לפתוח" : "לסגור";
     const c = D.counts || {};
-    const badge = { req:c.requests, cal:c.conflicts, rev:c.reviews, stu:0 };
+    const badge = { req:c.requests, cal:(c.conflicts || 0) + (D.offers || []).length, rev:c.reviews, stu:(D.students || []).filter(s => s.status === "pending" && s.firstReq).length };
     $$(".adm-tabs button").forEach(b => b.querySelector("i").textContent = badge[b.dataset.ap] || "");
     renderReq(); renderCal(); renderRev(); renderStu(); renderPri();
   }
@@ -1299,8 +1373,26 @@ const ADM = (function(){
         <div class="move-row" hidden><input type="date" class="mv-d"><input type="time" class="mv-t" step="900"><button class="cta" style="width:auto;padding:6px 12px;font-size:.88rem" data-a="domove">שמירה</button></div>` : ""}
     </div>`;
   }
+  /** רשימת המתנה + הצעות פעילות (מקומות שהתפנו) */
+  function wlHTML(){
+    const W = D.waitlist || [], O = D.offers || [];
+    if(!W.length && !O.length) return "";
+    let h = `<div id="wlSec">`;
+    if(O.length) h += `<div class="adm-h">🔔 מקומות שהתפנו – הוצעו לבא בתור</div>` + O.map(o => `<div class="adm-card" data-oid="${esc(o.oid)}">
+      <h4>${dLabel(o.start)} · <span dir="ltr">${hhmm(o.start)}</span></h4>
+      <div class="meta">הוצע ל<b>${esc(o.name)}</b> · נשלח מייל ${new Date(o.sentAt).toLocaleTimeString("he-IL", { hour:"2-digit", minute:"2-digit" })}${o.left ? ` · עוד ${o.left} בתור` : ""}</div>
+      <div class="adm-acts">${waBtn(o.phone, o.waText, "וואטסאפ ל" + o.name)}${o.left ? '<button data-a="offerNext">לבא בתור</button>' : ""}<button class="no" data-a="offerCancel">ביטול ההצעה</button></div></div>`).join("");
+    if(W.length){
+      h += `<div class="adm-h">⏳ רשימת המתנה</div>`; let last = "";
+      W.forEach(w => { if(w.day !== last){ h += `<div class="ls-day">${dLabel(new Date(w.day + "T12:00").getTime())}</div>`; last = w.day; }
+        h += `<div class="adm-card" data-wday="${esc(w.day)}" data-wkey="${esc(w.key)}"><h4>${esc(w.name)}<span class="badge">${w.mode === "frontal" ? "פרונטלי" : "אונליין"}</span></h4>
+          <div class="meta">נרשם/ה ${new Date(w.at).toLocaleString("he-IL", { day:"numeric", month:"numeric", hour:"2-digit", minute:"2-digit" })}</div>
+          <div class="adm-acts">${waBtn(w.phone, `היי ${w.name}, `, "וואטסאפ")}<button class="no" data-a="waitRemove">הסרה מהרשימה</button></div></div>`; });
+    }
+    return h + `</div>`;
+  }
   function renderCal(){
-    const el = $("#ap-cal"); let h = "";
+    const el = $("#ap-cal"); let h = wlHTML();
     const conf = D.lessons.filter(l => l.conflict);
     if(conf.length){ h += `<div class="adm-h">⚠️ שיעורים שנופלים על זמן סגור</div>` + conf.map(lessonCard).join(""); }
     h += `<div class="adm-h">שעות פנויות – שבועיים קדימה</div>`;
@@ -1322,6 +1414,14 @@ const ADM = (function(){
     rest.forEach(l => { const dl = dLabel(l.start); if(dl !== lastDay){ h += `<div class="ls-day">${dl}</div>`; lastDay = dl; } h += lessonCard(l); });
     el.innerHTML = h;
 
+    const wl = el.querySelector("#wlSec");
+    if(wl) wl.addEventListener("click", async ev => {
+      const b = ev.target.closest("button[data-a]"); if(!b) return; ev.stopPropagation();
+      const card = b.closest(".adm-card"), a = b.dataset.a;
+      if(a === "waitRemove"){ card.style.opacity = .4; b.disabled = true; await run("waitRemove", { day:card.dataset.wday, key:card.dataset.wkey }, "הוסר מהרשימה"); }
+      if(a === "offerNext"){ b.disabled = true; await run("offerNext", { oid:card.dataset.oid }, "נשלח לבא בתור"); }
+      if(a === "offerCancel"){ if(!confirm("לבטל את ההצעה? המועד יישאר פנוי לקביעה רגילה.")) return; b.disabled = true; await run("offerCancel", { oid:card.dataset.oid }, "ההצעה בוטלה"); }
+    });
     // עריכת שעות (בזיכרון עד שמירה)
     const draft = D.weeks.map(w => JSON.parse(JSON.stringify(w.hours)));
     const dayOf = (wi, dow) => { let d = draft[wi].find(x => x.dow === dow); if(!d){ d = { dow, ranges:[] }; draft[wi].push(d); } return d; };
@@ -1355,7 +1455,8 @@ const ADM = (function(){
       }
       if(b.dataset.a === "cancel"){
         if(!confirm(`לבטל את השיעור "${l.title}" ב${dLabel(l.start)}? התלמיד יקבל עדכון ביומן.`)) return;
-        b.disabled = true; await run("cancelLesson", { id }, "השיעור בוטל");
+        b.disabled = true; const j = await run("cancelLesson", { id }, "השיעור בוטל");
+        if(j && j.offered) toast(`השעה התפנתה והוצעה ל${j.offered.name} מרשימת ההמתנה`);
       }
       if(b.dataset.a === "move"){
         const row = card.querySelector(".move-row"); row.hidden = !row.hidden;
@@ -1365,7 +1466,8 @@ const ADM = (function(){
       if(b.dataset.a === "domove"){
         const dv = card.querySelector(".mv-d").value, tv = card.querySelector(".mv-t").value;
         if(!dv || !tv){ toast("בחרו תאריך ושעה"); return; }
-        b.disabled = true; await run("moveLesson", { id, start:new Date(`${dv}T${tv}`).getTime() }, "השיעור הועבר, התלמיד קיבל עדכון ביומן");
+        b.disabled = true; const j = await run("moveLesson", { id, start:new Date(`${dv}T${tv}`).getTime() }, "השיעור הועבר, התלמיד קיבל עדכון ביומן");
+        if(j && j.offered) toast(`השעה הקודמת הוצעה ל${j.offered.name} מרשימת ההמתנה`);
       }
     }));
   }
@@ -1392,13 +1494,14 @@ const ADM = (function(){
 
   function renderStu(){
     const el = $("#ap-stu");
-    if(!D.students.length){ el.innerHTML = '<p class="adm-empty">כרטיסי תלמידים נוצרים אוטומטית כשמאשרים בקשה.</p>'; return; }
-    el.innerHTML = D.students.map(s => {
+    if(!D.students.length){ el.innerHTML = '<p class="adm-empty">כרטיסי תלמידים נוצרים כשתלמיד נרשם באתר או כשמאשרים בקשה.</p>'; return; }
+    el.innerHTML = (D.sheetUrl ? `<p class="hint" style="margin:0 0 10px">📊 <a href="${esc(D.sheetUrl)}" target="_blank" rel="noopener">הגיליון: תלמידים ורשימת המתנה</a> (אפשר לשנות שם Pending ל-Approved)</p>` : "") + D.students.map(s => {
       const left = s.pkg ? s.pkg.total - s.pkg.used : null;
       return `<div class="adm-card" data-key="${esc(s.key)}"><h4>${esc(s.name)}${s.pkg ? `<span class="badge${left <= 0 ? " red" : ""}">חבילה: נשארו ${left} מתוך ${s.pkg.total}</span>` : ""}</h4>
         <div class="meta">📞 <span dir="ltr">${esc(s.phone)}</span>${s.email ? " · " + esc(s.email) : ""}${s.grade ? " · כיתה " + esc(s.grade) : ""}${s.parentPhone ? '<br>הורה: <span dir="ltr">' + esc(s.parentPhone) + "</span>" : ""}</div>
         <div class="pkg">חבילה: <button data-a="tot-">−</button><b class="ptot">${s.pkg ? s.pkg.total : 0}</b><button data-a="tot+">+</button> שיעורים · נוצלו <button data-a="use-">−</button><b class="puse">${s.pkg ? s.pkg.used : 0}</b><button data-a="use+">+</button></div>
-        <label class="switch-row"><input type="checkbox" data-a="self" ${s.selfBook !== false ? "checked" : ""}> יכול/ה לקבוע לבד בלי אישור</label>
+        ${s.firstReq ? `<div class="first-req">🙋 ביקש/ה תיאום שיעור ראשון · ${new Date(s.firstReq.at).toLocaleDateString("he-IL")}${s.firstReq.note ? `<br>📝 ${esc(s.firstReq.note)}` : ""}</div>` : ""}
+        <div class="st-seg" role="group" aria-label="סטטוס"><button type="button" class="ap" data-a="st" data-v="approved" aria-pressed="${s.status === "approved"}">Approved · קובע/ת לבד</button><button type="button" class="pe" data-a="st" data-v="pending" aria-pressed="${s.status !== "approved"}">Pending</button></div>
         <textarea class="stu-note" rows="2" placeholder="הערות שלך על התלמיד">${esc(s.note || "")}</textarea>
         <div class="adm-acts"><button data-a="save">שמירה</button>${waBtn(s.phone, `היי ${s.name}, `, "וואטסאפ")}${s.parentPhone ? waBtn(s.parentPhone, "שלום, ", "וואטסאפ להורה") : ""}</div>
         ${(s.log || []).length ? `<ul class="stu-log">${s.log.slice(-5).reverse().map(x => `<li>${new Date(x.at).toLocaleDateString("he-IL")} · ${esc(x.text)}</li>`).join("")}</ul>` : ""}
@@ -1411,10 +1514,19 @@ const ADM = (function(){
       if(a === "tot-") tot.textContent = Math.max(0, +tot.textContent - 1);
       if(a === "use+") use.textContent = Math.min(+tot.textContent, +use.textContent + 1);
       if(a === "use-") use.textContent = Math.max(0, +use.textContent - 1);
+      if(a === "st"){
+        const v = b.dataset.v, s = D.students.find(x => x.key === card.dataset.key); if(!s || s.status === v) return;
+        const prev = s.status; s.status = v; if(v === "approved") delete s.firstReq;              // עדכון מיידי במסך
+        card.querySelectorAll('[data-a="st"]').forEach(x => x.setAttribute("aria-pressed", String(x.dataset.v === v)));
+        const fr = card.querySelector(".first-req"); if(fr && v === "approved") fr.remove();
+        const j = await run("saveStudent", { key:card.dataset.key, patch:{ status:v } }, v === "approved" ? `${s.name} אושר/ה ✓ נשלח לו/ה מייל` : "הועבר ל-Pending");
+        if(!j){ s.status = prev; renderStu(); }
+        return;
+      }
       if(a === "save"){
         b.disabled = true;
         await run("saveStudent", { key:card.dataset.key, patch:{ pkgTotal:+tot.textContent, pkgUsed:+use.textContent,
-          selfBook:card.querySelector('[data-a="self"]').checked, note:card.querySelector(".stu-note").value } }, "נשמר");
+          note:card.querySelector(".stu-note").value } }, "נשמר");
       }
     }));
   }
@@ -1481,6 +1593,12 @@ const STU = (function(){
   const store = { get(){ try{ return localStorage.getItem(KEY) || ""; }catch(e){ return ""; } },
                   set(v){ try{ localStorage.setItem(KEY, v); }catch(e){} }, del(){ try{ localStorage.removeItem(KEY); }catch(e){} } };
   let sid = store.get(), D = null, sentTo = "";
+  // מטמון מקומי: האזור האישי נפתח מיד עם המידע האחרון, ומתעדכן מהשרת ברקע
+  const CK = "nir_stu_cache";
+  const cache = { get(){ try{ const c = JSON.parse(localStorage.getItem(CK) || "null"); return c && c.sid === sid ? c.D : null; }catch(e){ return null; } },
+                  set(d){ try{ localStorage.setItem(CK, JSON.stringify({ sid, D:d, at:Date.now() })); }catch(e){} }, del(){ try{ localStorage.removeItem(CK); }catch(e){} } };
+  if(sid) D = cache.get();
+  const commit = j => { D = j; cache.set(D); render(); if(typeof bookGate === "function") bookGate(); };
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
   const post = body => fetch(CONFIG.booking.api, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body:JSON.stringify(body) }).then(r => r.json());
   const tm = t => hhmm(t);
@@ -1491,13 +1609,17 @@ const STU = (function(){
   }
   async function load(){
     const j = await call("me");
-    if(!j.ok){ if(j.error === "auth"){ sid = ""; store.del(); showLogin(); } return j; }
-    D = j; render(); return j;
+    if(!j.ok){ if(j.error === "auth"){ sid = ""; store.del(); cache.del(); D = null; showLogin(); } return j; }
+    commit(j); return j;
   }
   function showLogin(){ $("#stuLogin").hidden = false; $("#stuMain").hidden = true; $("#stuCodeF").hidden = true; $("#stuGo").textContent = "שליחת קוד למייל"; $("#stuErr").textContent = ""; }
   async function open(){
     box.hidden = false;
-    if(sid){ $("#stuLogin").hidden = true; $("#stuMain").hidden = false; $("#stuMain").innerHTML = '<p class="adm-empty"><span class="spin"></span>טוען…</p>'; try{ await load(); }catch(e){ $("#stuMain").innerHTML = '<p class="form-err">אין חיבור. נסו שוב.</p>'; } }
+    if(sid){
+      $("#stuLogin").hidden = true; $("#stuMain").hidden = false;
+      if(D) render(); else $("#stuMain").innerHTML = '<p class="adm-empty"><span class="spin"></span>טוען…</p>';
+      try{ await load(); }catch(e){ if(!D) $("#stuMain").innerHTML = '<p class="form-err">אין חיבור. נסו שוב.</p>'; }
+    }
     else showLogin();
   }
   function close(){ box.hidden = true; }
@@ -1510,14 +1632,21 @@ const STU = (function(){
     try{
       if($("#stuCodeF").hidden){
         if(!EMAIL_RE.test(email)){ err.textContent = "כתבו מייל תקין"; return; }
-        const j = await post({ type:"student", op:"sendCode", email });
-        if(!j.ok){ err.textContent = j.error === "unknown" ? "לא מצאנו תלמיד עם המייל הזה. קבעו שיעור ראשון, ואחרי האישור אפשר להיכנס." : j.error === "rate" ? "נשלחו כבר כמה קודים. נסו שוב בעוד כמה דקות." : "לא הצלחנו לשלוח. נסו שוב."; return; }
+        const reg = !$("#stuRegF").hidden;
+        const j = reg ? await post({ type:"student", op:"register", email, name:$("#stuName").value.trim(), phone:$("#stuPhone").value.trim() })
+                      : await post({ type:"student", op:"sendCode", email });
+        if(!j.ok && j.error === "unknown"){
+          $("#stuRegF").hidden = false; btn.textContent = "הרשמה ושליחת קוד"; $("#stuName").focus();
+          err.textContent = "המייל הזה עוד לא רשום. ממלאים שם וטלפון ונרשמים."; return;
+        }
+        if(!j.ok){ err.textContent = j.error === "name" ? "כתבו שם מלא" : j.error === "phone" ? "כתבו מספר טלפון תקין" : j.error === "rate" ? "נשלחו כבר כמה קודים. נסו שוב בעוד כמה דקות." : "לא הצלחנו לשלוח. נסו שוב."; return; }
+        $("#stuRegF").hidden = true;
         sentTo = email; $("#stuCodeF").hidden = false; btn.textContent = "כניסה"; $("#stuCode").focus();
         err.style.color = "var(--green)"; err.textContent = "שלחנו קוד למייל. כדאי לבדוק גם בקידומי מכירות/ספאם."; setTimeout(() => err.style.color = "", 50);
       } else {
         const j = await post({ type:"student", op:"verify", email:sentTo || email, code:$("#stuCode").value.trim() });
         if(!j.ok){ err.style.color = ""; err.textContent = j.error === "rate" ? "יותר מדי ניסיונות. בקשו קוד חדש בעוד כמה דקות." : "הקוד לא נכון"; return; }
-        sid = j.sid; store.set(sid); $("#stuLogin").hidden = true; $("#stuMain").hidden = false; await load();
+        sid = j.sid; store.set(sid); D = null; $("#stuLogin").hidden = true; $("#stuMain").hidden = false; await load();
       }
     }catch(e){ err.textContent = "אין חיבור. נסו שוב."; }
     finally{ btn.disabled = false; }
@@ -1545,18 +1674,67 @@ const STU = (function(){
     let h = `<div class="stu-hello">היי ${esc(m.name)} 👋</div>`;
     if(m.pkg) h += `<div class="stu-pkg"><div><div class="meta">נשארו בחבילה</div><b>${Math.max(0,left)}</b> <span class="meta">מתוך ${m.pkg.total}</span></div><div class="bar"><i style="width:${Math.min(100, m.pkg.used / m.pkg.total * 100)}%"></i></div></div>`;
     if(m.pkg && left <= 0) h += `<div class="adm-card warn"><b>החבילה שלך הסתיימה 🎉</b><div class="meta">כדי להמשיך לקבוע, בוחרים חבילה חדשה.</div><div class="adm-acts"><button class="ok" data-a="newpkg">לבחירת חבילה</button></div></div>`;
-    h += `<button class="cta" data-a="book" style="margin:4px 0 6px">+ קביעת שיעור חדש</button>`;
-    if(m.selfBook) h += `<p class="hint" style="margin:0 0 6px">השיעור נקבע מיד, בלי לחכות לאישור ✓</p>`;
+    (D.offers || []).forEach(o => { h += `<div class="offer-card" data-oid="${esc(o.oid)}"><b>🎉 התפנה מקום מרשימת ההמתנה!</b><div class="when">${dateLabel(o.start)} · <span dir="ltr">${tm(o.start)}</span></div><button class="cta" data-a="claim">לקבוע את המועד הזה</button></div>`; });
+    if(m.status === "pending") h += gateHTML();
+    else {
+      h += `<button class="cta" data-a="book" style="margin:4px 0 6px">+ קביעת שיעור חדש</button>`;
+      h += `<p class="hint" style="margin:0 0 6px">השיעור נקבע מיד, בלי לחכות לאישור ✓</p>`;
+    }
+    if((D.waits || []).length) h += `<div class="adm-h">רשימת המתנה</div><div class="wl-list">${D.waits.map(w => `<span class="wl-chip">⏳ ${dateLabel(new Date(w.day + "T12:00").getTime())}<button data-a="leave" data-day="${esc(w.day)}" aria-label="יציאה מהרשימה">✕</button></span>`).join("")}</div>`;
     h += `<div class="adm-h">השיעורים הקרובים</div>` + (D.upcoming.length ? D.upcoming.map(l => lessonHTML(l, true)).join("") : '<p class="adm-empty">אין שיעורים קרובים</p>');
     h += `<div class="adm-h">שיעורים קודמים</div>` + (D.past.length ? D.past.map(l => lessonHTML(l, false)).join("") : '<p class="adm-empty">עוד אין</p>');
     h += `<button class="link-btn rv-close" data-a="logout">יציאה מהאזור האישי</button>`;
     el.innerHTML = h;
     el.querySelectorAll(".js-wa-late").forEach(a => { a.href = waHref.replace(encodeURIComponent(CONFIG.waMessage), encodeURIComponent("היי ניר, לגבי השיעור הקרוב שלי: ")); if(IS_MOBILE) a.removeAttribute("target"); });
   }
+  function gateHTML(){
+    const m = D.me, f = m.firstReq;
+    if(f) return `<div class="stu-gate wait"><h3>⏳ הבקשה נשלחה</h3><p>ביקשת לתאם שיעור ראשון ב-${new Date(f.at).toLocaleDateString("he-IL")}. ניר יחזור אליך בקרוב לתיאום. אחרי השיעור הראשון והאישור, אפשר יהיה לקבוע כאן לבד, ישר ביומן.</p></div>`;
+    return `<div class="stu-gate"><h3>ברוך/ה הבא/ה 👋</h3><p>את השיעור הראשון מתאמים יחד, כדי להכיר ולהבין על מה כדאי לעבוד. אחר כך נפתח לך היומן לקביעה עצמית.</p>
+      <textarea rows="2" maxlength="400" class="fr-note" placeholder="משהו שחשוב שאדע? כיתה, יחידות, מבחן קרוב (לא חובה)"></textarea>
+      <button class="cta" data-a="firstReq">בקש תיאום שיעור ראשון</button></div>`;
+  }
+  /** "בקש תיאום שיעור ראשון": המסך משתנה מיד, הבקשה נשלחת ברקע */
+  async function firstReq(note){
+    const prev = D.me.firstReq;
+    D.me.firstReq = { at:Date.now(), note }; cache.set(D); render(); if(typeof bookGate === "function") bookGate();
+    try{ const j = await call("firstReq", { note }); if(j.ok){ commit(j); return true; } throw 0; }
+    catch(e){ D.me.firstReq = prev; cache.set(D); render(); if(typeof bookGate === "function") bookGate(); toast("הבקשה לא נשלחה, נסו שוב"); return false; }
+  }
+  /** הצטרפות / יציאה מרשימת המתנה: עדכון מיידי, השרת ברקע, חזרה אחורה אם נכשל */
+  async function wait(day, join, extra){
+    if(!D) return false;
+    const prev = (D.waits || []).slice();
+    D.waits = join ? prev.filter(w => w.day !== day).concat([{ day, at:Date.now() }]).sort((x, y) => x.day < y.day ? -1 : 1) : prev.filter(w => w.day !== day);
+    cache.set(D); render();
+    try{
+      const j = await call(join ? "waitJoin" : "waitLeave", Object.assign({ day }, extra || {}));
+      if(j.ok){ commit(j); return true; }
+      D.waits = prev; cache.set(D); render();
+      toast(j.error === "max" ? "אפשר להמתין לעד 5 ימים במקביל" : j.error === "pending" ? "רשימת ההמתנה פתוחה לתלמידים מאושרים" : "לא הצלחנו לעדכן, נסו שוב");
+      return false;
+    }catch(e){ D.waits = prev; cache.set(D); render(); toast("אין חיבור, נסו שוב"); return false; }
+  }
+  async function handleGate(b, root){
+    if(b.dataset.a !== "firstReq") return;
+    const note = ((root.querySelector(".fr-note") || {}).value || "").trim();
+    b.disabled = true; await firstReq(note);
+  }
   $("#stuMain").addEventListener("click", async ev => {
     const b = ev.target.closest("button"); if(!b) return;
     const a = b.dataset.a, card = b.closest(".adm-card[data-id]"), id = card && card.dataset.id;
-    if(a === "logout"){ sid = ""; store.del(); D = null; showLogin(); return; }
+    if(a === "logout"){ sid = ""; store.del(); cache.del(); D = null; showLogin(); if(typeof bookGate === "function") bookGate(); return; }
+    if(a === "firstReq"){ handleGate(b, $("#stuMain")); return; }
+    if(a === "leave"){ wait(b.dataset.day, false); return; }
+    if(a === "claim"){
+      const oc = b.closest(".offer-card"); b.disabled = true; b.innerHTML = '<span class="spin"></span>קובע…';
+      try{
+        const j = await call("claim", { oid:oc.dataset.oid });
+        if(j.ok){ commit(j); toast("נקבע! השיעור ביומן ✓"); }
+        else { toast(j.error === "taken" ? "מישהו הקדים, המועד כבר נתפס" : j.error === "late" ? "כבר פחות מרבע שעה לשיעור" : "ההצעה כבר לא בתוקף"); load(); }
+      }catch(e){ toast("אין חיבור, נסו שוב"); b.disabled = false; b.textContent = "לקבוע את המועד הזה"; }
+      return;
+    }
     if(a === "book" || a === "newpkg"){ close(); go("book"); if(a === "newpkg"){ S.plan = null; } setStep(1); return; }
     if(a === "topic"){ b.disabled = true; const j = await call("topic", { id, text:card.querySelector(".topic-in").value }); toast(j.ok ? "הנושא נשמר" : "לא נשמר, נסו שוב"); b.disabled = false; return; }
     if(a === "yes"){ b.disabled = true; const j = await call("confirm", { id }); if(j.ok){ D = j; render(); toast("תודה! אישרת הגעה"); } return; }
@@ -1593,7 +1771,25 @@ const STU = (function(){
   });
   $("#meBtn").addEventListener("click", open);
   if(location.hash === "#me"){ history.replaceState(null, "", "#home"); setTimeout(open, 300); }
-  return { open, get sid(){ return sid; }, get me(){ return D && D.me; }, refresh: () => sid && load() };
+  if(sid) setTimeout(() => { load().catch(() => {}); }, 1200);          // רענון שקט ברקע (לסטטוס ולהצעות)
+  return { open, get sid(){ return sid; }, get me(){ return D && D.me; }, get waits(){ return (D && D.waits) || []; },
+    refresh: () => sid && load(), wait, gateHTML: () => D ? gateHTML() : "", handleGate };
+})();
+
+/* ---------- מקום שהתפנה, מהמייל: #claim=<oid>~<k> ---------- */
+(function(){
+  const m = location.hash.match(/^#claim=([^~]+)~([\w-]+)/); if(!m) return;
+  history.replaceState(null, "", "#home");
+  const ov = $("#confirmOv"); ov.hidden = false;
+  $("#cfIcon").textContent = "⏳"; $("#cfTitle").textContent = "קובעים את המקום שהתפנה…"; $("#cfText").textContent = "";
+  $("#cfClose").onclick = () => { ov.hidden = true; };
+  if(!CONFIG.booking.api){ $("#cfTitle").textContent = "מצב תצוגה"; return; }
+  fetch(CONFIG.booking.api, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body:JSON.stringify({ type:"claim", oid:decodeURIComponent(m[1]), k:m[2] }) })
+    .then(r => r.json()).then(j => {
+      if(j.ok){ $("#cfIcon").textContent = "🎉"; $("#cfTitle").textContent = `נקבע${j.name ? ", " + j.name : ""}!`; $("#cfText").textContent = `השיעור ${j.when} כבר ביומן, וההזמנה בדרך למייל.`; STU.refresh(); }
+      else { $("#cfIcon").textContent = "😕"; $("#cfTitle").textContent = j.error === "taken" ? "מישהו הקדים" : j.error === "late" ? "כבר מאוחר מדי" : "ההצעה כבר לא בתוקף";
+        $("#cfText").textContent = j.error === "late" ? "נשארה פחות מרבע שעה עד השיעור." : "המקום עבר לבא בתור או נתפס. נשארת ברשימת ההמתנה לימים אחרים."; }
+    }).catch(() => { $("#cfTitle").textContent = "אין חיבור, נסו שוב"; });
 })();
 
 /* ---------- אישור הגעה מהמייל: #confirm=<id>~<k>[~no] ---------- */
